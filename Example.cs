@@ -1,6 +1,6 @@
-namespace example {
+namespace Example {
     class Program {
-    static void Main(string[] args) {
+        static void Main(string[] args) {
             Console.WriteLine("Hello World!");
 
             // Here is a comment
