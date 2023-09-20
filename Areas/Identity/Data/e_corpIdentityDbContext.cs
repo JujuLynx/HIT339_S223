@@ -1,3 +1,4 @@
+using e_corp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -10,6 +11,13 @@ public class e_corpIdentityDbContext : IdentityDbContext<IdentityUser>
         : base(options)
     {
     }
+    public DbSet<Session> Session { get; set; }
+
+    public DbSet<Booking> Booking { get; set; }
+
+    public DbSet<Location> Location { get; set; }
+
+    public DbSet<Biography> Biography { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {
