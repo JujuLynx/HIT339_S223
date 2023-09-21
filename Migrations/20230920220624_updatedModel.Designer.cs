@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_corp.Areas.Identity.Data;
 
@@ -10,9 +11,11 @@ using e_corp.Areas.Identity.Data;
 namespace e_corp.Migrations
 {
     [DbContext(typeof(e_corpIdentityDbContext))]
-    partial class e_corpIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230920220624_updatedModel")]
+    partial class updatedModel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -254,6 +257,25 @@ namespace e_corp.Migrations
                     b.ToTable("Booking");
                 });
 
+            modelBuilder.Entity("e_corp.Models.Location", b =>
+                {
+                    b.Property<Guid>("LocationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("LocationID");
+
+                    b.ToTable("Location");
+                });
+
             modelBuilder.Entity("e_corp.Models.Session", b =>
                 {
                     b.Property<Guid>("SessionID")
@@ -263,8 +285,7 @@ namespace e_corp.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Location")
-                        .IsRequired()
+                    b.Property<Guid>("LocationID")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Name")
@@ -275,6 +296,8 @@ namespace e_corp.Migrations
                         .HasColumnType("TEXT");
 
                     b.HasKey("SessionID");
+
+                    b.HasIndex("LocationID");
 
                     b.HasIndex("UserID");
 
@@ -353,11 +376,19 @@ namespace e_corp.Migrations
 
             modelBuilder.Entity("e_corp.Models.Session", b =>
                 {
+                    b.HasOne("e_corp.Models.Location", "Location")
+                        .WithMany()
+                        .HasForeignKey("LocationID")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Coach")
                         .WithMany()
                         .HasForeignKey("UserID");
 
                     b.Navigation("Coach");
+
+                    b.Navigation("Location");
                 });
 #pragma warning restore 612, 618
         }

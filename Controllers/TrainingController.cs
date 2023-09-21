@@ -2,7 +2,7 @@
 
 namespace e_corp.Controllers
 {
-    public class Training : Controller
+    public class TrainingController : Controller
     {
         public IActionResult Index()
         {
