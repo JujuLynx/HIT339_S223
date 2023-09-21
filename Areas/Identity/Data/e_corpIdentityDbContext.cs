@@ -15,7 +15,7 @@ public class e_corpIdentityDbContext : IdentityDbContext<IdentityUser>
 
     public DbSet<Booking> Booking { get; set; }
 
-    public DbSet<Biography> Biography { get; set; }
+    public DbSet<CoachProfile> CoachProfile { get; set; }
 
     protected override void OnModelCreating(ModelBuilder builder)
     {

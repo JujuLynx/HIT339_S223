@@ -14,5 +14,6 @@ namespace e_corp.Models
         // Navigation Properties
         [ForeignKey("UserID")]
         public IdentityUser Coach { get; set; }
+
     }
 }
