@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
+using System.Security.Claims;
 
 namespace e_corp.Controllers
 {
@@ -33,11 +34,12 @@ namespace e_corp.Controllers
             return View();
         }
 
-        // CREATE ITEM PAGE
+
         [Authorize]
         [HttpGet]
         public IActionResult CreateEvent()
         {
+            // Get all coaches
             var coaches = _userManager.GetUsersInRoleAsync("Coach").Result;
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
             return View();
@@ -69,6 +71,42 @@ namespace e_corp.Controllers
             // If we got this far, something failed, redisplay form
             var coaches = await _userManager.GetUsersInRoleAsync("Coach");
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
+            return View(model);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public IActionResult CreateCoachProfile()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [Authorize]
+        public async Task<IActionResult> CreateCoachProfile(CreateCoachProfile model)
+        {
+            if (ModelState.IsValid)
+            {
+                // GET USER ID
+                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+                // Map CoachProfileAdd model to CoachProfile model
+                CoachProfile newCoachProfile = new CoachProfile
+                {
+                    CoachID = userId,
+                    Name = model.Name,
+                    YearsOfExperience = model.YearsOfExperience,
+                    Biography = model.Biography
+                };
+
+                // Save to database
+                _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
+                await _e_corpIdentityDbContext.SaveChangesAsync();
+
+                return RedirectToAction("CreateCoachProfile"); // Redirect to some view (like the list of sessions) after saving.
+            }
+
+            // If we got this far, something failed, redisplay form
             return View(model);
         }
 

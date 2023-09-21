@@ -1,0 +1,26 @@
+﻿@model e_corp.Models.CreateCoachProfile
+@{
+    ViewData["Title"] = "Create Profile";
+}
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold fs-200">Create Profile</h1>
+</div>
+
+<form asp-controller="Training" asp-action="CreateCoachProfile" method="post">
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Years Of Experience</label>
+        <input type="number" class="form-control" asp-for="YearsOfExperience">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Biography</label>
+        <textarea type="date" class="form-control" asp-for="Biography"></textarea>
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>

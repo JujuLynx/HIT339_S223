@@ -8,7 +8,7 @@ namespace e_corp.Models
     {
         // Keys
         [Key]
-        public Guid CoachID { get; set; }
+        public string CoachID { get; set; }
         public string Name { get; set; }
         public int YearsOfExperience { get; set; }
         public string Biography { get; set; }
