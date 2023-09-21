@@ -18,15 +18,15 @@ namespace e_corp.Controllers
         private readonly e_corpIdentityDbContext _e_corpIdentityDbContext;
         private readonly UserManager<IdentityUser> _userManager; // Added UserManager
 
-        // Inject UserManager into your controller's constructor
+        // Inject UserManager 
         public TrainingController(
             ILogger<HomeController> logger,
             e_corpIdentityDbContext e_corpIdentityDbContext,
-            UserManager<IdentityUser> userManager) // Injection here
+            UserManager<IdentityUser> userManager) 
         {
             _logger = logger;
             _e_corpIdentityDbContext = e_corpIdentityDbContext;
-            _userManager = userManager; // Assign to the field
+            _userManager = userManager; 
         }
 
         public IActionResult Index()
@@ -65,7 +65,7 @@ namespace e_corp.Controllers
                 _e_corpIdentityDbContext.Session.Add(newSession);
                 await _e_corpIdentityDbContext.SaveChangesAsync();
 
-                return RedirectToAction("CreateEvent"); // Redirect to some view (like the list of sessions) after saving.
+                return RedirectToAction("CreateEvent"); 
             }
 
             // If we got this far, something failed, redisplay form
@@ -74,7 +74,7 @@ namespace e_corp.Controllers
             return View(model);
         }
 
-        [Authorize]
+        [Authorize (Roles = "Coach")]
         [HttpGet]
         public IActionResult CreateCoachProfile()
         {
@@ -82,7 +82,7 @@ namespace e_corp.Controllers
         }
 
         [HttpPost]
-        [Authorize]
+        [Authorize (Roles = "Coach")]
         public async Task<IActionResult> CreateCoachProfile(CreateCoachProfile model)
         {
             if (ModelState.IsValid)
@@ -103,7 +103,7 @@ namespace e_corp.Controllers
                 _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
                 await _e_corpIdentityDbContext.SaveChangesAsync();
 
-                return RedirectToAction("CreateCoachProfile"); // Redirect to some view (like the list of sessions) after saving.
+                return RedirectToAction("CreateCoachProfile"); 
             }
 
             // If we got this far, something failed, redisplay form
