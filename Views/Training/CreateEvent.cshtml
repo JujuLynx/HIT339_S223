@@ -1,5 +1,32 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model e_corp.Models.SessionAdd
 @{
+    ViewData["Title"] = "Create Session";
 }
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold fs-200">Create Session</h1>
+</div>
+
+<form asp-controller="Training" asp-action="CreateEvent" method="post">
+    <div class="mb-3">
+        <label for="" class="form-label">Name</label>
+        <input type="text" class="form-control" asp-for="Name">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Date</label>
+        <input type="date" class="form-control" asp-for="Date">
+    </div>
+    <div class="mb-3">
+        <label for="" class="form-label">Location</label>
+        <input type="text" class="form-control" asp-for="Location">
+    </div>
+    <div class="mb-3">
+        <label for="CoachId" class="form-label">Coach</label>
+        <select class="form-control" asp-for="CoachId" asp-items="ViewBag.Coaches"></select>
+    </div>
+
+    <div class="mb-3">
+        <input type="submit" value="Create" class="btn btn-primary" />
+    </div>
+</form>
+

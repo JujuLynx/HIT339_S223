@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_corp.Areas.Identity.Data;
 
@@ -10,9 +11,11 @@ using e_corp.Areas.Identity.Data;
 namespace e_corp.Migrations
 {
     [DbContext(typeof(e_corpIdentityDbContext))]
-    partial class e_corpIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230921091645_updatedsessionmodel")]
+    partial class updatedsessionmodel
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");

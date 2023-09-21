@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_corp.Areas.Identity.Data;
 
@@ -10,9 +11,11 @@ using e_corp.Areas.Identity.Data;
 namespace e_corp.Migrations
 {
     [DbContext(typeof(e_corpIdentityDbContext))]
-    partial class e_corpIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230921090614_changedsessionmodels")]
+    partial class changedsessionmodels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -280,6 +283,8 @@ namespace e_corp.Migrations
 
                     b.HasKey("SessionID");
 
+                    b.HasIndex("CoachId");
+
                     b.ToTable("Session");
                 });
 
@@ -351,6 +356,17 @@ namespace e_corp.Migrations
                     b.Navigation("Member");
 
                     b.Navigation("Session");
+                });
+
+            modelBuilder.Entity("e_corp.Models.Session", b =>
+                {
+                    b.HasOne("Microsoft.AspNetCore.Identity.IdentityUser", "Coach")
+                        .WithMany()
+                        .HasForeignKey("CoachId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Coach");
                 });
 #pragma warning restore 612, 618
         }
