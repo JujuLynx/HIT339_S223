@@ -1,3 +1,4 @@
+using e_corp.Areas.DATA_2;
 using e_corp.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
@@ -5,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_corp.Areas.Identity.Data;
 
-public class e_corpIdentityDbContext : IdentityDbContext<IdentityUser>
+public class e_corpIdentityDbContext : IdentityDbContext<AppUser>
 {
     public e_corpIdentityDbContext(DbContextOptions<e_corpIdentityDbContext> options)
         : base(options)
