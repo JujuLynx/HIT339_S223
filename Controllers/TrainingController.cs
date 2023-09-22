@@ -74,41 +74,70 @@ namespace e_corp.Controllers
             return View(model);
         }
 
-        [Authorize (Roles = "Coach")]
+        [Authorize(Roles = "Coach")]
         [HttpGet]
-        public IActionResult CreateCoachProfile()
+        public IActionResult CreateOrEditCoachProfile()
         {
+            // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            // Check if the user already has a profile
+            var existingProfile = _e_corpIdentityDbContext.CoachProfile.FirstOrDefault(cp => cp.CoachID == userId);
+
+            // If they do, return the edit view with the existing profile
+            if (existingProfile != null)
+            {
+                var editModel = new CreateCoachProfile
+                {
+                    Name = existingProfile.Name,
+                    YearsOfExperience = existingProfile.YearsOfExperience,
+                    Biography = existingProfile.Biography
+                };
+                return View(editModel);
+            }
             return View();
         }
 
         [HttpPost]
-        [Authorize (Roles = "Coach")]
-        public async Task<IActionResult> CreateCoachProfile(CreateCoachProfile model)
+        [Authorize(Roles = "Coach")]
+        public async Task<IActionResult> CreateOrEditCoachProfile(CreateCoachProfile model)
         {
             if (ModelState.IsValid)
             {
-                // GET USER ID
+                // Get the current user's ID
                 var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
 
-                // Map CoachProfileAdd model to CoachProfile model
-                CoachProfile newCoachProfile = new CoachProfile
-                {
-                    CoachID = userId,
-                    Name = model.Name,
-                    YearsOfExperience = model.YearsOfExperience,
-                    Biography = model.Biography
-                };
+                // Check if the user already has a profile
+                var existingProfile = _e_corpIdentityDbContext.CoachProfile.FirstOrDefault(cp => cp.CoachID == userId);
 
-                // Save to database
-                _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
+                // If they do, update the existing profile
+                if (existingProfile != null)
+                {
+                    existingProfile.Name = model.Name;
+                    existingProfile.YearsOfExperience = model.YearsOfExperience;
+                    existingProfile.Biography = model.Biography;
+                }
+
+                // If they don't, create a new profile
+                else
+                {
+                    CoachProfile newCoachProfile = new CoachProfile
+                    {
+                        CoachID = userId,
+                        Name = model.Name,
+                        YearsOfExperience = model.YearsOfExperience,
+                        Biography = model.Biography
+                    };
+                    _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
+                }
+
                 await _e_corpIdentityDbContext.SaveChangesAsync();
 
-                return RedirectToAction("CreateCoachProfile"); 
+                return RedirectToAction("CreateOrEditCoachProfile");
             }
-
-            // If we got this far, something failed, redisplay form
             return View(model);
         }
+
 
 
     }
