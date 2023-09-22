@@ -9,6 +9,7 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
+using e_corp.Areas.DATA_2;
 
 namespace e_corp.Controllers
 {
@@ -16,7 +17,7 @@ namespace e_corp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly e_corpIdentityDbContext _e_corpIdentityDbContext;
-        private readonly UserManager<IdentityUser> _userManager; // Added UserManager
+        private readonly UserManager<IdentityUser> _userManager;
 
         // Inject UserManager 
         public TrainingController(
@@ -91,7 +92,8 @@ namespace e_corp.Controllers
                 {
                     Name = existingProfile.Name,
                     YearsOfExperience = existingProfile.YearsOfExperience,
-                    Biography = existingProfile.Biography
+                    Biography = existingProfile.Biography,
+                    ImageUrl = existingProfile.ImageUrl 
                 };
                 return View(editModel);
             }
@@ -116,6 +118,7 @@ namespace e_corp.Controllers
                     existingProfile.Name = model.Name;
                     existingProfile.YearsOfExperience = model.YearsOfExperience;
                     existingProfile.Biography = model.Biography;
+                    existingProfile.ImageUrl = model.ImageUrl;  // Add this line
                 }
 
                 // If they don't, create a new profile
@@ -126,7 +129,8 @@ namespace e_corp.Controllers
                         CoachID = userId,
                         Name = model.Name,
                         YearsOfExperience = model.YearsOfExperience,
-                        Biography = model.Biography
+                        Biography = model.Biography,
+                        ImageUrl = model.ImageUrl  // Add this line
                     };
                     _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
                 }

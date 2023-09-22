@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace e_corp.Areas.Identity.Data;
 
-public class e_corpIdentityDbContext : IdentityDbContext<AppUser>
+public class e_corpIdentityDbContext : IdentityDbContext<IdentityUser>
 {
     public e_corpIdentityDbContext(DbContextOptions<e_corpIdentityDbContext> options)
         : base(options)
