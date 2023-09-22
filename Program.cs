@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using e_corp.Areas.Identity.Data;
+using e_corp.Areas.DATA_2; //added new
 
 namespace e_corp
 {
@@ -11,11 +12,11 @@ namespace e_corp
             var builder = WebApplication.CreateBuilder(args);
             var connectionString = builder.Configuration.GetConnectionString("e_corpIdentityDbContextConnection") ?? throw new InvalidOperationException("Connection string 'e_corpIdentityDbContextConnection' not found.");
 
-            builder.Services.AddDbContext<e_corpIdentityDbContext>(options => options.UseSqlite(connectionString));
+            builder.Services.AddDbContext<ECorpIdentityDbContext>(options => options.UseSqlite(connectionString));
 
-            builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = false)
+            builder.Services.AddDefaultIdentity<AppUser>(options => options.SignIn.RequireConfirmedAccount = false)
                 .AddRoles<IdentityRole>()
-                .AddEntityFrameworkStores<e_corpIdentityDbContext>();
+                .AddEntityFrameworkStores<ECorpIdentityDbContext>();
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
@@ -62,7 +63,7 @@ namespace e_corp
             using (var scope = app.Services.CreateScope())
             {
                 var userManager =
-                    scope.ServiceProvider.GetRequiredService<UserManager<IdentityUser>>();
+                    scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
 
                 string adminEmail = "admin@admin.com";
                 string adminPassword = "Admin123!";
@@ -84,66 +85,66 @@ namespace e_corp
 
                 if (await userManager.FindByEmailAsync(adminEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = adminEmail;
                     user.Email = adminEmail;
 
-                    await userManager.CreateAsync(user, adminPassword);
+                    await userManager.CreateAsync((AppUser)user, adminPassword);
 
-                    await userManager.AddToRoleAsync(user, "Admin");
+                    await userManager.AddToRoleAsync((AppUser)user, "Admin");
                 }
 
                 if (await userManager.FindByEmailAsync(coachMattEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = coachMattEmail;
                     user.Email = coachMattEmail;
 
-                    await userManager.CreateAsync(user, coachMattPassword);
+                    await userManager.CreateAsync((AppUser)user, coachMattPassword);
 
-                    await userManager.AddToRoleAsync(user, "Coach");
+                    await userManager.AddToRoleAsync((AppUser)user, "Coach");
                 }
 
                 if (await userManager.FindByEmailAsync(coachKyleEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = coachKyleEmail;
                     user.Email = coachKyleEmail;
 
-                    await userManager.CreateAsync(user, coachKylePassword);
+                    await userManager.CreateAsync((AppUser)user, coachKylePassword);
 
-                    await userManager.AddToRoleAsync(user, "Coach");
+                    await userManager.AddToRoleAsync((AppUser)user, "Coach");
                 }
 
                 if (await userManager.FindByEmailAsync(coachMichaelEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = coachMichaelEmail;
                     user.Email = coachMichaelEmail;
 
-                    await userManager.CreateAsync(user, coachMichaelPassword);
+                    await userManager.CreateAsync((AppUser)user, coachMichaelPassword);
 
-                    await userManager.AddToRoleAsync(user, "Coach");
+                    await userManager.AddToRoleAsync((AppUser)user, "Coach");
                 }
 
                 if (await userManager.FindByEmailAsync(coachMeherinaEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = coachMeherinaEmail;
                     user.Email = coachMeherinaEmail;
 
-                    await userManager.CreateAsync(user, coachMeherinaPassword);
+                    await userManager.CreateAsync((AppUser)user, coachMeherinaPassword);
 
-                    await userManager.AddToRoleAsync(user, "Coach");
+                    await userManager.AddToRoleAsync((AppUser)user, "Coach");
                 }
 
                 if (await userManager.FindByEmailAsync(memberEmail) == null)
                 {
-                    var user = new IdentityUser();
+                    var user = new AppUser();
                     user.UserName = memberEmail;
                     user.Email = memberEmail;
 
-                    await userManager.CreateAsync(user, memberPassword);
+                    await userManager.CreateAsync((AppUser)user, memberPassword);
                 }
 
             }

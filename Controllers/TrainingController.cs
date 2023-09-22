@@ -9,7 +9,6 @@ using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using System.Linq;
 using System.Security.Claims;
-using e_corp.Areas.DATA_2;
 
 namespace e_corp.Controllers
 {
@@ -23,7 +22,8 @@ namespace e_corp.Controllers
         public TrainingController(
             ILogger<HomeController> logger,
             e_corpIdentityDbContext e_corpIdentityDbContext,
-            UserManager<IdentityUser> userManager) 
+            UserManager<AppUser> userManager)                            //added AppUser instead of IdentityUser
+
         {
             _logger = logger;
             _e_corpIdentityDbContext = e_corpIdentityDbContext;
