@@ -3,6 +3,8 @@
     ViewData["Title"] = "Edit Profile";
 }
 
+
+
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
@@ -21,6 +23,30 @@
         <textarea type="date" class="form-control" asp-for="Biography"></textarea>
     </div>
     <div class="mb-3">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <label for="ImageUrl" class="form-label">Image URL</label>
+        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" asp-for="ImageUrl" oninput="previewImage ()">
+    </div>
+    <div class="mb-3">
+        <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 300px; max-height: 300px;">
+    </div>
+    <div class="mb-3">
+        <input type="submit" value="Save Changes" class="btn btn-primary" />
     </div>
 </form>
+
+<script>
+    function previewImage() {
+        const imageUrl = document.getElementById('ImageUrl').value;
+        const imagePreview = document.getElementById('imagePreview');
+
+        if (imageUrl) {
+            imagePreview.src = imageUrl;
+        } else {
+            imagePreview.removeAttribute('src');
+        }
+    }
+
+    // Call the function on page load
+    previewImage();
+</script>
+
