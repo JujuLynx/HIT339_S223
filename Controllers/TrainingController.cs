@@ -141,6 +141,18 @@ namespace e_corp.Controllers
             return View(model);
         }
 
+        public async Task<IActionResult> Coaches()
+        {
+            var coaches = _e_corpIdentityDbContext.CoachProfile.ToListAsync();
+
+            var coachesView = new CoachesView
+            {
+                CoachProfiles = await coaches
+            };
+
+            return View(coachesView);
+        }
+
 
 
     }
