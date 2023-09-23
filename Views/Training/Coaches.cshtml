@@ -10,16 +10,15 @@
 </div>
 
 
-<div style=" display: flex; flex-wrap: wrap; gap: 20px">
+<div style=" display: flex; flex-wrap: wrap; gap: 20px; margin: auto">
 
     @foreach (var coach in Model.CoachProfiles!)
     {
         <div class="card" style="width: 18rem; ">
             <img src="@coach.ImageUrl" class="card-img-top" alt="...">
-            <div class="card-body">
+            <div class="card-body" style="text-align: center">
                 <h5 class="card-title">@coach.Name</h5>
-                <p class="card-text">@coach.Biography</p>
-                <a href="#" class="btn btn-primary">Go somewhere</a>
+                <a class="btn btn-primary" style="margin: auto" asp-action="Coach" asp-route-id="@coach.CoachID">View Profile</a>
             </div>
         </div>
     }

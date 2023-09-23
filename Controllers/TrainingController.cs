@@ -141,6 +141,7 @@ namespace e_corp.Controllers
             return View(model);
         }
 
+
         public async Task<IActionResult> Coaches()
         {
             var coaches = _e_corpIdentityDbContext.CoachProfile.ToListAsync();
@@ -151,6 +152,26 @@ namespace e_corp.Controllers
             };
 
             return View(coachesView);
+        }
+
+        public async Task<IActionResult> Coach(Guid id)
+        {
+            var coach = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == id.ToString());
+
+            if (coach != null)
+            {
+                var coachView = new CoachView
+                {
+                    Name = coach.Name,
+                    YearsOfExperience = coach.YearsOfExperience,
+                    Biography = coach.Biography,
+                    ImageUrl = coach.ImageUrl
+                };
+
+                return View(coachView);
+            }
+
+            return RedirectToAction("Coaches");
         }
 
 

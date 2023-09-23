@@ -1,5 +1,24 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model e_corp.Models.CoachView
+
 @{
-}
+    ViewData["Title"] = "Coach";
+}   
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold fs-200">Coach @Model.Name</h1>
+</div>
+
+
+<div class="card" style="width: 28rem; margin: auto">
+    <img src="@Model.ImageUrl" class="card-img-top" alt="...">
+    <div class="card-body">
+        <h5 class="card-title">@Model.YearsOfExperience Years Of Experience</h5>
+        <p class="card-text">@Model.Biography</p>
+    </div>
+</div>
+<div style="text-align: center; margin-top: 20px">
+    <a class="btn btn-success" style="margin: auto" asp-action="Coach">Upcoming Sessions</a>
+    <a class="btn btn-danger" style="margin: auto" asp-action="Coaches">Back to Coaches</a>
+</div>
+
+
