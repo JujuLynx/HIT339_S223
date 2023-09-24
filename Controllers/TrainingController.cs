@@ -39,7 +39,7 @@ namespace e_corp.Controllers
         [HttpGet]
         public IActionResult CreateEvent()
         {
-            // Get all coaches
+            // Get all coaches for the dropdown
             var coaches = _userManager.GetUsersInRoleAsync("Coach").Result;
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
             return View();
@@ -117,7 +117,7 @@ namespace e_corp.Controllers
                     existingProfile.Name = model.Name;
                     existingProfile.YearsOfExperience = model.YearsOfExperience;
                     existingProfile.Biography = model.Biography;
-                    existingProfile.ImageUrl = model.ImageUrl;  // Add this line
+                    existingProfile.ImageUrl = model.ImageUrl; 
                 }
 
                 // If they don't, create a new profile
@@ -129,7 +129,7 @@ namespace e_corp.Controllers
                         Name = model.Name,
                         YearsOfExperience = model.YearsOfExperience,
                         Biography = model.Biography,
-                        ImageUrl = model.ImageUrl  // Add this line
+                        ImageUrl = model.ImageUrl 
                     };
                     _e_corpIdentityDbContext.CoachProfile.Add(newCoachProfile);
                 }
@@ -141,7 +141,7 @@ namespace e_corp.Controllers
             return View(model);
         }
 
-
+        // List all coaches
         public async Task<IActionResult> Coaches()
         {
             var coaches = _e_corpIdentityDbContext.CoachProfile.ToListAsync();
@@ -154,6 +154,7 @@ namespace e_corp.Controllers
             return View(coachesView);
         }
 
+        // View a single coach profile by ID from the URL
         public async Task<IActionResult> Coach(Guid id)
         {
             var coach = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == id.ToString());
@@ -174,6 +175,7 @@ namespace e_corp.Controllers
             return RedirectToAction("Coaches");
         }
 
+        // List all events
         public async Task<IActionResult> Events()
         {
             var sessions = _e_corpIdentityDbContext.Session.ToListAsync();
