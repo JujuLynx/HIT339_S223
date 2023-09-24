@@ -175,7 +175,7 @@ namespace e_corp.Controllers
             return RedirectToAction("Coaches");
         }
 
-        // List all events
+        // List all events (user-based logic for this is in the Events view)
         public async Task<IActionResult> Events()
         {
             var sessions = _e_corpIdentityDbContext.Session.ToListAsync();
@@ -186,6 +186,35 @@ namespace e_corp.Controllers
             };
 
             return View(sessionsView);
+        }
+
+        // View a single event by ID from the URL
+        public async Task<IActionResult> Event(Guid id)
+        {
+            var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
+
+            if (session != null)
+            {
+                var coach = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(c => c.CoachID == session.CoachId);
+
+                if (coach == null)
+                {
+                    // Handle the case where the coach doesn't exist (optional)
+                    return NotFound("Coach not found");
+                }
+
+                var sessionView = new SessionView
+                {
+                    Name = session.Name,
+                    Date = session.Date,
+                    Location = session.Location,
+                    CoachName = coach.Name // Assuming your CoachProfile model has a Name property
+                };
+
+                return View(sessionView);
+            }
+
+            return RedirectToAction("Events");
         }
 
 
