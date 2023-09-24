@@ -174,6 +174,18 @@ namespace e_corp.Controllers
             return RedirectToAction("Coaches");
         }
 
+        public async Task<IActionResult> Events()
+        {
+            var sessions = _e_corpIdentityDbContext.Session.ToListAsync();
+
+            var sessionsView = new Sessions
+            {
+                Events = await sessions
+            };
+
+            return View(sessionsView);
+        }
+
 
 
     }
