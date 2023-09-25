@@ -1,13 +1,20 @@
 ﻿@model e_corp.Models.SessionAdd
 @{
-    ViewData["Title"] = "Create Session";
+    var isEditing = Model.SessionID != Guid.Empty;
+    ViewData["Title"] = isEditing ? "Edit Session" : "Create Session";
 }
 
 <div class="text-center">
-    <h1 class="display-4 fw-bold fs-200">Create Session</h1>
+    <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
 
-<form asp-controller="Training" asp-action="CreateEvent" method="post">
+<form asp-controller="Training" asp-action="CreateOrEditEvent" method="post">
+
+    @if (isEditing)
+    {
+        <input type="hidden" asp-for="SessionID" />
+    }
+
     <div class="mb-3">
         <label for="" class="form-label">Name</label>
         <input type="text" class="form-control" asp-for="Name">
@@ -26,7 +33,8 @@
     </div>
 
     <div class="mb-3">
-        <input type="submit" value="Create" class="btn btn-primary" />
+        <input type="submit" value="@(isEditing ? "Update" : "Create")" class="btn btn-primary" />
     </div>
 </form>
+
 

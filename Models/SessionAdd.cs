@@ -9,5 +9,7 @@ namespace e_corp.Models
         public string Location { get; set; }
 
         public string CoachId { get; set; }
+
+        public Guid SessionID { get; set; }
     }
 }

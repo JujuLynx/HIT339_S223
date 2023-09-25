@@ -24,6 +24,7 @@
         @if (User.IsInRole("Admin"))
         {
             <a class="btn btn-danger" style="margin: auto" asp-action="DeleteEvent" asp-route-id="@Model.SessionID">Delete Session</a>
+            <a class="btn btn-danger" style="margin: auto" asp-action="CreateEvent" asp-route-id="@Model.SessionID">Edit Session</a>
         }
         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
         {

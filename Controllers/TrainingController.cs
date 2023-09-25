@@ -37,35 +37,74 @@ namespace e_corp.Controllers
 
         [Authorize]
         [HttpGet]
-        public IActionResult CreateEvent()
+        public async Task<IActionResult> CreateEvent(Guid? id)
         {
-            // Get all coaches for the dropdown
-            var coaches = _userManager.GetUsersInRoleAsync("Coach").Result;
+            var coaches = await _userManager.GetUsersInRoleAsync("Coach");
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
-            return View();
+
+            if (id.HasValue)
+            {
+                var session = await _e_corpIdentityDbContext.Session.FindAsync(id.Value);
+                if (session == null)
+                    return NotFound();
+
+                var model = new SessionAdd
+                {
+                    SessionID = session.SessionID,
+                    Name = session.Name,
+                    Date = session.Date,
+                    Location = session.Location,
+                    CoachId = session.CoachId
+                };
+
+                return View(model);
+            }
+            return View(new SessionAdd());
         }
 
         [HttpPost]
         [Authorize]
-        public async Task<IActionResult> CreateEvent(SessionAdd model)
+        public async Task<IActionResult> CreateOrEditEvent(SessionAdd model)
         {
             if (ModelState.IsValid)
             {
-                // Map SessionAdd model to Session model
-                Session newSession = new Session
-                {
-                    SessionID = Guid.NewGuid(),
-                    Name = model.Name,
-                    Date = model.Date,
-                    Location = model.Location,
-                    CoachId = model.CoachId
-                };
+                Session session;
 
-                // Save to database
-                _e_corpIdentityDbContext.Session.Add(newSession);
+                // Check if the SessionID is provided, meaning it's an existing session
+                if (model.SessionID != Guid.Empty)
+                {
+                    session = _e_corpIdentityDbContext.Session.FirstOrDefault(s => s.SessionID == model.SessionID);
+
+                    if (session != null)
+                    {
+                        // Update the existing session
+                        session.Name = model.Name;
+                        session.Date = model.Date;
+                        session.Location = model.Location;
+                        session.CoachId = model.CoachId;
+                    }
+                    else
+                    {
+                        return NotFound("Session not found.");
+                    }
+                }
+                else
+                {
+                    // Create a new session
+                    session = new Session
+                    {
+                        SessionID = Guid.NewGuid(),
+                        Name = model.Name,
+                        Date = model.Date,
+                        Location = model.Location,
+                        CoachId = model.CoachId
+                    };
+                    _e_corpIdentityDbContext.Session.Add(session);
+                }
+
                 await _e_corpIdentityDbContext.SaveChangesAsync();
 
-                return RedirectToAction("CreateEvent"); 
+                return RedirectToAction("Events");
             }
 
             // If we got this far, something failed, redisplay form
@@ -73,6 +112,8 @@ namespace e_corp.Controllers
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
             return View(model);
         }
+
+
 
         [Authorize(Roles = "Coach")]
         [HttpGet]
