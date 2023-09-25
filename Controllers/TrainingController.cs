@@ -304,6 +304,10 @@ namespace e_corp.Controllers
                 var coachProfile = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == session.CoachId);
                 string coachName = coachProfile?.Name ?? "Unknown";
 
+                // Get the member's email from the identity table
+                var memberIdentity = await _userManager.FindByIdAsync(userId);
+                string memberEmail = memberIdentity?.Email ?? "Unknown";
+
                 // Assuming that the CoachId corresponds to the User's Id in the identity table to get the email
                 var coachIdentity = await _userManager.FindByIdAsync(session.CoachId.ToString());
                 string coachEmail = coachIdentity?.Email ?? "Unknown";
@@ -316,8 +320,10 @@ namespace e_corp.Controllers
                     Date = session.Date,
                     Location = session.Location,
                     CoachName = coachName, 
-                    CoachEmail = coachEmail, 
-                    SessionName = session.Name
+                    CoachEmail = coachEmail,
+                    CoachID = session.CoachId,
+                    SessionName = session.Name,
+                    MemberEmail = memberEmail
                 };
 
                 _e_corpIdentityDbContext.Booking.Add(booking);

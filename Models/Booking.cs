@@ -14,6 +14,9 @@ namespace e_corp.Models
         public string CoachName { get; set; }
         public string CoachEmail { get; set; }
         public string MemberID { get; set; }
+        public string CoachID { get; set; }
+        public string MemberEmail { get; set; }
+
 
 
     }
