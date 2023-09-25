@@ -7,15 +7,14 @@ namespace e_corp.Models
     {
         // Keys
         public Guid BookingID { get; set; }
-
-        // Foreign Keys
         public Guid SessionID { get; set; }
-        public string UserID { get; set; }
+        public string SessionName { get; set; }
+        public DateTime Date { get; set; }
+        public string Location { get; set; }
+        public string CoachName { get; set; }
+        public string CoachEmail { get; set; }
+        public string MemberID { get; set; }
 
-        // Navigation Properties
-        [ForeignKey("SessionID")]
-        public Session Session { get; set; }
-        [ForeignKey("UserID")]
-        public IdentityUser Member { get; set; }
+
     }
 }

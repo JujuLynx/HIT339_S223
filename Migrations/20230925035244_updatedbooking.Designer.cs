@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using e_corp.Areas.Identity.Data;
 
@@ -10,9 +11,11 @@ using e_corp.Areas.Identity.Data;
 namespace e_corp.Migrations
 {
     [DbContext(typeof(e_corpIdentityDbContext))]
-    partial class e_corpIdentityDbContextModelSnapshot : ModelSnapshot
+    [Migration("20230925035244_updatedbooking")]
+    partial class updatedbooking
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.10");
@@ -219,10 +222,6 @@ namespace e_corp.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("CoachEmail")
-                        .IsRequired()
-                        .HasColumnType("TEXT");
-
                     b.Property<string>("CoachName")
                         .IsRequired()
                         .HasColumnType("TEXT");
@@ -238,11 +237,11 @@ namespace e_corp.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<Guid>("SessionID")
+                    b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("SessionName")
-                        .IsRequired()
+                    b.Property<Guid>("SessionID")
                         .HasColumnType("TEXT");
 
                     b.HasKey("BookingID");

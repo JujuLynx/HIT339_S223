@@ -114,13 +114,13 @@ namespace e_corp.Controllers
         }
 
 
-
+        // Page for creating and editing a coach profile
         [Authorize(Roles = "Coach")]
         [HttpGet]
         public IActionResult CreateOrEditCoachProfile()
         {
             // Get the current user's ID
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var userId = _userManager.GetUserId(User);
 
             // Check if the user already has a profile
             var existingProfile = _e_corpIdentityDbContext.CoachProfile.FirstOrDefault(cp => cp.CoachID == userId);
@@ -140,6 +140,7 @@ namespace e_corp.Controllers
             return View();
         }
 
+        //POST for creating and editing a coach profile
         [HttpPost]
         [Authorize(Roles = "Coach")]
         public async Task<IActionResult> CreateOrEditCoachProfile(CreateCoachProfile model)
@@ -147,7 +148,7 @@ namespace e_corp.Controllers
             if (ModelState.IsValid)
             {
                 // Get the current user's ID
-                var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+                var userId = _userManager.GetUserId(User);
 
                 // Check if the user already has a profile
                 var existingProfile = _e_corpIdentityDbContext.CoachProfile.FirstOrDefault(cp => cp.CoachID == userId);
@@ -183,6 +184,8 @@ namespace e_corp.Controllers
         }
 
         // List all coaches
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Coaches()
         {
             var coaches = _e_corpIdentityDbContext.CoachProfile.ToListAsync();
@@ -196,6 +199,8 @@ namespace e_corp.Controllers
         }
 
         // View a single coach profile by ID from the URL
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Coach(Guid id)
         {
             var coach = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == id.ToString());
@@ -218,6 +223,7 @@ namespace e_corp.Controllers
         }
 
         [HttpGet]
+        [Authorize]
         // List all events (user-based logic for this is in the Events view)
         public async Task<IActionResult> Events(string id)
         {
@@ -234,6 +240,8 @@ namespace e_corp.Controllers
 
 
         // View a single event by ID from the URL
+        [HttpGet]
+        [Authorize]
         public async Task<IActionResult> Event(Guid id)
         {
             var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
@@ -264,6 +272,8 @@ namespace e_corp.Controllers
         }
 
         // Delete a Session by ID from the URL
+        [HttpGet]
+        [Authorize (Roles = "Admin")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {
             var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
@@ -271,6 +281,42 @@ namespace e_corp.Controllers
             if (session != null)
             {
                 _e_corpIdentityDbContext.Session.Remove(session);
+                await _e_corpIdentityDbContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Events");
+        }
+
+        // Make a booking for a session
+        public async Task<IActionResult> Book(Guid id)
+        {
+            var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
+
+            if (session != null)
+            {
+                var userId = _userManager.GetUserId(User);
+
+                // Get the coach's name from the CoachProfile model
+                var coachProfile = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == session.CoachId);
+                string coachName = coachProfile?.Name ?? "Unknown";
+
+                // Assuming that the CoachId corresponds to the User's Id in the identity table to get the email
+                var coachIdentity = await _userManager.FindByIdAsync(session.CoachId.ToString());
+                string coachEmail = coachIdentity?.Email ?? "Unknown";
+
+                var booking = new Booking
+                {
+                    BookingID = Guid.NewGuid(),
+                    SessionID = session.SessionID,
+                    MemberID = userId,
+                    Date = session.Date,
+                    Location = session.Location,
+                    CoachName = coachName, 
+                    CoachEmail = coachEmail, 
+                    SessionName = session.Name
+                };
+
+                _e_corpIdentityDbContext.Booking.Add(booking);
                 await _e_corpIdentityDbContext.SaveChangesAsync();
             }
 

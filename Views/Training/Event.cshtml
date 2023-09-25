@@ -28,7 +28,7 @@
         }
         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
         {
-            <a class="btn btn-success" style="margin: auto" asp-action="" asp-route-id="@Model.SessionID">Book Session</a>
+            <a class="btn btn-success" style="margin: auto" asp-action="Book" asp-route-id="@Model.SessionID">Book Session</a>
         }
     </div>
 </div>
