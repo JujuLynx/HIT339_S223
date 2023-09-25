@@ -323,6 +323,37 @@ namespace e_corp.Controllers
             return RedirectToAction("Events");
         }
 
+        // List all bookings (user logic for this is in the Bookings view)
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Bookings()
+        {
+            var bookings = await _e_corpIdentityDbContext.Booking.ToListAsync();
+
+            var bookingsView = new BookingsView
+            {
+                Bookings = bookings
+            };
+
+            return View(bookingsView);
+        }
+
+        // Delete a booking by ID from the URL
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> DeleteBooking(Guid id)
+        {
+            var booking = await _e_corpIdentityDbContext.Booking.FirstOrDefaultAsync(b => b.BookingID == id);
+
+            if (booking != null)
+            {
+                _e_corpIdentityDbContext.Booking.Remove(booking);
+                await _e_corpIdentityDbContext.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Bookings");
+        }
+
 
 
     }

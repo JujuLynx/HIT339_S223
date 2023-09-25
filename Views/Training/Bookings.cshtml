@@ -1,0 +1,39 @@
+﻿@model e_corp.Models.BookingsView
+@using Microsoft.AspNetCore.Identity
+@using e_corp.Areas.Identity.Data
+@inject UserManager<IdentityUser> UserManager
+
+@{
+    ViewData["Title"] = "My Bookings";
+    // get the user's id
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
+}
+
+<div class="text-center">
+    <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
+</div>
+
+
+@foreach (var booking in Model.Bookings)
+{
+    @if (userId == booking.MemberID)
+    {
+        <div style=" display: flex; flex-wrap: wrap; gap: 20px; margin: auto">
+            <div class="card" style="width: 25rem;">
+                <div class="card-body">
+                    <h5 class="card-title">@booking.SessionName</h5>
+                    <p class="card-text">@booking.Date</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><b>Coach:</b> @booking.CoachName</li>
+                    <li class="list-group-item"><b>Coach Contact:</b> @booking.CoachEmail</li>
+                    <li class="list-group-item"><b>Location:</b> @booking.Location</li>
+                </ul>
+                <div class="card-body">
+                    <a class="btn btn-danger" style="margin: auto" asp-action="DeleteBooking" asp-route-id="@booking.BookingID">Cancel Booking</a>
+                </div>
+            </div>
+        </div>
+    }
+}
