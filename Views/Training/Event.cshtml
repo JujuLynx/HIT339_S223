@@ -5,6 +5,9 @@
 
 @{
     ViewData["Title"] = "Session";
+    // get the user's id
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
 }
 
 <div class="text-center">
@@ -21,6 +24,7 @@
         <li class="list-group-item">Location: @Model.Location</li>
     </ul>
     <div class="card-body">
+        
         @if (User.IsInRole("Admin"))
         {
             <a class="btn btn-danger" style="margin: auto" asp-action="DeleteEvent" asp-route-id="@Model.SessionID">Delete Session</a>
@@ -32,3 +36,10 @@
         }
     </div>
 </div>
+
+@if (userId == Model.CoachID)
+{
+    <div class="text-center">
+        <h1 class="display-4 fw-bold fs-200">Members Attending</h1>
+    </div>
+}

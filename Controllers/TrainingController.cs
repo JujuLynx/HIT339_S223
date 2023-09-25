@@ -246,6 +246,8 @@ namespace e_corp.Controllers
         {
             var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
 
+            var bookings = await _e_corpIdentityDbContext.Booking.ToListAsync();
+
             if (session != null)
             {
                 var coach = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(c => c.CoachID == session.CoachId);
@@ -262,7 +264,9 @@ namespace e_corp.Controllers
                     Date = session.Date,
                     Location = session.Location,
                     CoachName = coach.Name,
-                    SessionID = session.SessionID
+                    CoachID = coach.CoachID,
+                    SessionID = session.SessionID,
+                    Bookings = bookings
                 };
 
                 return View(sessionView);
