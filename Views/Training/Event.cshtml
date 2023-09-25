@@ -1,4 +1,7 @@
 ﻿@model e_corp.Models.SessionView
+@using Microsoft.AspNetCore.Identity
+@using e_corp.Areas.Identity.Data
+@inject UserManager<IdentityUser> UserManager
 
 @{
     ViewData["Title"] = "Session";
@@ -18,7 +21,13 @@
         <li class="list-group-item">Location: @Model.Location</li>
     </ul>
     <div class="card-body">
-        <a href="#" class="card-link">Card link</a>
-        <a href="#" class="card-link">Another link</a>
+        @if (User.IsInRole("Admin"))
+        {
+            <a class="btn btn-danger" style="margin: auto" asp-action="DeleteEvent" asp-route-id="@Model.SessionID">Delete Session</a>
+        }
+        @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
+        {
+            <a class="btn btn-success" style="margin: auto" asp-action="" asp-route-id="@Model.SessionID">Book Session</a>
+        }
     </div>
 </div>

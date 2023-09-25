@@ -6,5 +6,6 @@
         public DateTime Date { get; set; }
         public string Location { get; set; }
         public string CoachName { get; set; }
+        public Guid SessionID { get; set; }
     }
 }

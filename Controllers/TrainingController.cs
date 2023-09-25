@@ -166,7 +166,8 @@ namespace e_corp.Controllers
                     Name = coach.Name,
                     YearsOfExperience = coach.YearsOfExperience,
                     Biography = coach.Biography,
-                    ImageUrl = coach.ImageUrl
+                    ImageUrl = coach.ImageUrl,
+                    CoachID = coach.CoachID
                 };
 
                 return View(coachView);
@@ -175,18 +176,21 @@ namespace e_corp.Controllers
             return RedirectToAction("Coaches");
         }
 
+        [HttpGet]
         // List all events (user-based logic for this is in the Events view)
-        public async Task<IActionResult> Events()
+        public async Task<IActionResult> Events(string id)
         {
-            var sessions = _e_corpIdentityDbContext.Session.ToListAsync();
+            var sessions = await _e_corpIdentityDbContext.Session.ToListAsync();
 
             var sessionsView = new Sessions
             {
-                Events = await sessions
+                Events = sessions,
+                CoachID = id
             };
 
             return View(sessionsView);
         }
+
 
         // View a single event by ID from the URL
         public async Task<IActionResult> Event(Guid id)
@@ -208,10 +212,25 @@ namespace e_corp.Controllers
                     Name = session.Name,
                     Date = session.Date,
                     Location = session.Location,
-                    CoachName = coach.Name // Assuming your CoachProfile model has a Name property
+                    CoachName = coach.Name,
+                    SessionID = session.SessionID
                 };
 
                 return View(sessionView);
+            }
+
+            return RedirectToAction("Events");
+        }
+
+        // Delete a Session by ID from the URL
+        public async Task<IActionResult> DeleteEvent(Guid id)
+        {
+            var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
+
+            if (session != null)
+            {
+                _e_corpIdentityDbContext.Session.Remove(session);
+                await _e_corpIdentityDbContext.SaveChangesAsync();
             }
 
             return RedirectToAction("Events");
