@@ -62,6 +62,7 @@ namespace e_corp.Controllers
             return View(new SessionAdd());
         }
 
+        // Create or edit an event (also updates bookings associated with the event)
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreateOrEditEvent(SessionAdd model)
@@ -70,7 +71,7 @@ namespace e_corp.Controllers
             {
                 Session session;
 
-                // Check if the SessionID is provided, meaning it's an existing session
+                // Check for an existing session 
                 if (model.SessionID != Guid.Empty)
                 {
                     session = _e_corpIdentityDbContext.Session.FirstOrDefault(s => s.SessionID == model.SessionID);
@@ -82,6 +83,27 @@ namespace e_corp.Controllers
                         session.Date = model.Date;
                         session.Location = model.Location;
                         session.CoachId = model.CoachId;
+
+                        // Fetch bookings associated with this session
+                        var bookings = _e_corpIdentityDbContext.Booking.Where(b => b.SessionID == model.SessionID).ToList();
+
+                        // Update each booking that corresponds to the session
+                        foreach (var booking in bookings)
+                        {
+                            booking.Date = model.Date;
+                            booking.Location = model.Location;
+                            booking.SessionName = model.Name;
+                            booking.CoachID = model.CoachId;
+
+                            // Update CoachName and CoachEmail in the booking
+                            var coachProfile = await _e_corpIdentityDbContext.CoachProfile.FirstOrDefaultAsync(cp => cp.CoachID == session.CoachId);
+                            string coachName = coachProfile?.Name ?? "Unknown";
+                            var coachIdentity = await _userManager.FindByIdAsync(session.CoachId.ToString());
+                            string coachEmail = coachIdentity?.Email ?? "Unknown";
+
+                            booking.CoachName = coachName;
+                            booking.CoachEmail = coachEmail;
+                        }
                     }
                     else
                     {
@@ -103,7 +125,6 @@ namespace e_corp.Controllers
                 }
 
                 await _e_corpIdentityDbContext.SaveChangesAsync();
-
                 return RedirectToAction("Events");
             }
 
@@ -112,6 +133,7 @@ namespace e_corp.Controllers
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
             return View(model);
         }
+
 
 
         // Page for creating and editing a coach profile
@@ -140,7 +162,7 @@ namespace e_corp.Controllers
             return View();
         }
 
-        //POST for creating and editing a coach profile
+        // Creating and editing a coach profile
         [HttpPost]
         [Authorize(Roles = "Coach")]
         public async Task<IActionResult> CreateOrEditCoachProfile(CreateCoachProfile model)
@@ -275,7 +297,7 @@ namespace e_corp.Controllers
             return RedirectToAction("Events");
         }
 
-        // Delete a Session by ID from the URL
+        // Delete a Session by ID from the URL and all associated bookings
         [HttpGet]
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEvent(Guid id)
