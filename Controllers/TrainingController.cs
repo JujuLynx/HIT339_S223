@@ -16,17 +16,20 @@ namespace e_corp.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly e_corpIdentityDbContext _e_corpIdentityDbContext;
+        private readonly RoleManager<IdentityRole> _roleManager;
         private readonly UserManager<IdentityUser> _userManager; // Added UserManager
 
         // Inject UserManager 
         public TrainingController(
             ILogger<HomeController> logger,
             e_corpIdentityDbContext e_corpIdentityDbContext,
-            UserManager<IdentityUser> userManager) 
+            UserManager<IdentityUser> userManager,
+            RoleManager<IdentityRole> roleManager) 
         {
             _logger = logger;
             _e_corpIdentityDbContext = e_corpIdentityDbContext;
-            _userManager = userManager; 
+            _userManager = userManager;
+            _roleManager = roleManager;
         }
 
         public IActionResult Index()
@@ -397,6 +400,30 @@ namespace e_corp.Controllers
             return RedirectToAction("Bookings");
         }
 
+        // List all members that arent in a role for admin or coach
+        [HttpGet]
+        [Authorize]
+        public async Task<IActionResult> Members()
+        {
+            var allRoles = await _roleManager.Roles.Select(r => r.Name).ToListAsync();
+            var viewModel = new UsersWithoutRolesListViewModel();
+
+            foreach (var user in _userManager.Users)
+            {
+                var userRoles = await _userManager.GetRolesAsync(user);
+                if (!userRoles.Intersect(allRoles).Any())
+                {
+                    viewModel.UsersWithoutRoles.Add(new UserWithoutRolesViewModel
+                    {
+                        Id = user.Id,
+                        UserName = user.UserName,
+                        Email = user.Email
+                    });
+                }
+            }
+
+            return View(viewModel);
+        }
 
 
     }

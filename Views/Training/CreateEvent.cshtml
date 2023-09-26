@@ -2,6 +2,9 @@
 @{
     var isEditing = Model.SessionID != Guid.Empty;
     ViewData["Title"] = isEditing ? "Edit Session" : "Create Session";
+
+    // set current date for form input
+    string formDate = DateTime.Now.ToString("yyyy-MM-dd");
 }
 
 <div class="text-center">
@@ -21,7 +24,7 @@
     </div>
     <div class="mb-3">
         <label for="" class="form-label">Date</label>
-        <input type="date" class="form-control" asp-for="Date">
+        <input type="date" class="form-control" asp-for="Date" value="@formDate">
     </div>
     <div class="mb-3">
         <label for="" class="form-label">Location</label>

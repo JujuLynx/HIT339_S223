@@ -35,6 +35,7 @@
         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
         {
             <a class="btn btn-success" style="margin: auto" asp-action="Book" asp-route-id="@Model.SessionID">Book Session</a>
+            <a class="btn btn-primary" style="margin: auto" asp-action="Coach" asp-route-id="@Model.CoachID">Visit Coach Profile</a>
         }
     </div>
 </div>

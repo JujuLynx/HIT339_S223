@@ -4,11 +4,14 @@
 @inject UserManager<IdentityUser> UserManager
 
 @{
-    ViewData["Title"] = "Events";
+    ViewData["Title"] = "Sessions";
 
     // get the user's id
     var user = await UserManager.GetUserAsync(User);
     var userId = user?.Id;
+
+    // get the current date
+    DateTime currentDate = DateTime.Today;
 }
 
 <div class="text-center">
@@ -21,7 +24,8 @@
     {
         @foreach (var session in Model.Events!)
         {
-            @if (Model.CoachID == session.CoachId)
+            // Adding the condition for future events
+            @if (Model.CoachID == session.CoachId && session.Date.Date >= currentDate)
             {
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
@@ -31,9 +35,7 @@
                     </div>
                 </div>
             }
-
         }
-
     }
 
     else if (User.IsInRole("Coach"))
@@ -53,7 +55,7 @@
         }
     }
 
-    else if (!(User.IsInRole("Coach")))
+    else if (User.IsInRole("Admin"))
     {
         @foreach (var session in Model.Events)
         {
@@ -66,6 +68,25 @@
             </div>
         }
     }
+
+    else
+    {
+        @foreach (var session in Model.Events)
+        {
+            if (session.Date.Date >= currentDate)
+            {
+                <div class="card text-center" style="width: 18rem;">
+                    <div class="card-body">
+                        <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
+                        <p class="card-text" style="margin-top: 20px">@session.Name</p>
+                        <a class="btn btn-primary" style="margin: auto" asp-action="Event" asp-route-id="@session.SessionID">More Details</a>
+                    </div>
+                </div>
+            }
+        }
+    }
+
+
 
 </div>
 

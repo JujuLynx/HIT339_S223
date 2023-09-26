@@ -25,15 +25,18 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Coaches">Coaches</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Events</a>
-                        </li>
 
                         <!-- Navigation for admins  -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="CreateEvent">Create Session</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">All Sessions</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Members">All Members</a>
                             </li>
                         }
                         <!-- Navigation for coaches  -->
@@ -43,7 +46,7 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="CreateOrEditCoachProfile">Edit Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">My Upcoming Events</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">My Sessions</a>
                             </li>
                         }
                         <!-- Navigation for members  -->
@@ -53,6 +56,12 @@
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Bookings">My Bookings</a>
                             </li>
                         
+                        }
+                        @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Sessions</a>
+                            </li>
                         }
                     </ul>
                     <partial name="_LoginPartial" />
