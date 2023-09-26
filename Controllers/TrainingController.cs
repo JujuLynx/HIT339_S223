@@ -277,14 +277,25 @@ namespace e_corp.Controllers
 
         // Delete a Session by ID from the URL
         [HttpGet]
-        [Authorize (Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteEvent(Guid id)
         {
             var session = await _e_corpIdentityDbContext.Session.FirstOrDefaultAsync(s => s.SessionID == id);
 
             if (session != null)
             {
+                // Get all bookings associated with this session.
+                var bookingsForSession = await _e_corpIdentityDbContext.Booking
+                    .Where(b => b.SessionID == id)
+                    .ToListAsync();
+
+                // Remove those bookings from the database.
+                _e_corpIdentityDbContext.Booking.RemoveRange(bookingsForSession);
+
+                // Remove the session itself.
                 _e_corpIdentityDbContext.Session.Remove(session);
+
+                // Save changes to the database.
                 await _e_corpIdentityDbContext.SaveChangesAsync();
             }
 

@@ -25,15 +25,15 @@
                         <li class="nav-item">
                             <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Coaches">Coaches</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Events</a>
+                        </li>
 
                         <!-- Navigation for admins  -->
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="CreateEvent">Create Session</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Events</a>
                             </li>
                         }
                         <!-- Navigation for coaches  -->
@@ -47,11 +47,8 @@
                             </li>
                         }
                         <!-- Navigation for members  -->
-                        @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
+                        @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))) && (User.Identity.IsAuthenticated))
                         {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Events</a>
-                            </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Bookings">My Bookings</a>
                             </li>
