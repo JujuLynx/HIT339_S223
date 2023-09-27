@@ -20,3 +20,21 @@ html {
 body {
   margin-bottom: 60px;
 }
+
+body {
+    font-family: "Lato", sans-serif;
+}
+
+:root {
+    --primary: #94618e;
+}
+
+.justify {
+    text-align: justify;
+}
+
+.text-purple {
+    color: var(--primary);
+}
+
+
