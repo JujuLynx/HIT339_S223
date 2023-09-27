@@ -1,68 +1,69 @@
-﻿@{
+﻿@using Microsoft.AspNetCore.Identity;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
 
-<div class="container py-5">
-    <div class="row">
-        <div class="col p-5">
-            <h1> <i class="fa fa-tachometer" aria-hidden="true"></i> Admin Dashboard</h1>
-            <hr />
+
+@if (User.IsInRole("Admin"))
+{
+    <div class="container py-5">
+        <div class="row">
+            <div class="col p-5">
+                <h1> <i class="fa fa-tachometer" aria-hidden="true"></i> Admin Dashboard</h1>
+                <hr />
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <a class="text-decoration-none" asp-controller="Training" asp-action="Coaches">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                        <div class="card-body">
+                            <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
+                            <hr />
+                            <p class="card-title lead">Coaches</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a class="text-decoration-none" asp-controller="Training" asp-action="Events">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                        <div class="card-body">
+                            <i class="fa fa-edit fa-2x" aria-hidden="true"></i>
+                            <hr />
+                            <p class="card-title lead">Manage Sessions</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a class="text-decoration-none" asp-controller="Training" asp-action="CreateEvent">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                        <div class="card-body">
+                            <i class="fa fa-image fa-2x" aria-hidden="true"></i>
+                            <hr />
+                            <p class="card-title lead">Create Sessions</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col">
+                <a class="text-decoration-none" asp-controller="Training" asp-action="Members">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                        <div class="card-body">
+                            <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                            <hr />
+                            <p class="card-title lead">Members List</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
         </div>
     </div>
-    <div class="row">
-        <div class="col">
-            <a class="text-decoration-none" href="#">
-                <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
-                    <div class="card-body">
-                        <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
-                        <hr />
-                        <p class="card-title lead">Coaches</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col">
-            <a class="text-decoration-none" href="#">
-                <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
-                    <div class="card-body">
-                        <i class="fa fa-edit fa-2x" aria-hidden="true"></i>
-                        <hr />
-                        <p class="card-title lead">Manage Sessions</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col">
-            <a class="text-decoration-none" href="#">
-                <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
-                    <div class="card-body">
-                        <i class="fa fa-image fa-2x" aria-hidden="true"></i>
-                        <hr />
-                        <p class="card-title lead">Create Sessions</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-        <div class="col">
-            <a class="text-decoration-none" href="#">
-                <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
-                    <div class="card-body">
-                        <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-                        <hr />
-                        <p class="card-title lead">Members List</p>
-                    </div>
-                </div>
-            </a>
-        </div>
-
-    </div>
-</div>
+}
 
