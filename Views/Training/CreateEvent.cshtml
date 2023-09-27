@@ -13,6 +13,7 @@
 
 <form asp-controller="Training" asp-action="CreateOrEditEvent" method="post">
 
+    <!-- hidden session ID to POST if editing  -->
     @if (isEditing)
     {
         <input type="hidden" asp-for="SessionID" />
@@ -35,6 +36,7 @@
         <select class="form-control" asp-for="CoachId" asp-items="ViewBag.Coaches"></select>
     </div>
 
+    <!-- Dynamic button name depending on update or create  -->
     <div class="mb-3">
         <input type="submit" value="@(isEditing ? "Update" : "Create")" class="btn btn-primary" />
     </div>

@@ -14,7 +14,7 @@
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
 
-
+<!-- Show user specific bookings  -->
 @foreach (var booking in Model.Bookings)
 {
     @if (userId == booking.MemberID)
