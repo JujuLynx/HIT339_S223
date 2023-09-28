@@ -17,7 +17,7 @@ namespace e_corp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly e_corpIdentityDbContext _e_corpIdentityDbContext;
         private readonly RoleManager<IdentityRole> _roleManager;
-        private readonly UserManager<IdentityUser> _userManager; // Added UserManager
+        private readonly UserManager<IdentityUser> _userManager;
 
         // Inject UserManager 
         public TrainingController(
@@ -32,9 +32,16 @@ namespace e_corp.Controllers
             _roleManager = roleManager;
         }
 
-        public IActionResult Index()
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var bookings = await _e_corpIdentityDbContext.Booking.ToListAsync();
+
+            var HomepageView = new Homepage
+            {
+                HomeBookings = bookings
+            };
+            return View(HomepageView);
         }
 
 

@@ -1,6 +1,12 @@
-﻿@using Microsoft.AspNetCore.Identity;
+﻿@using Microsoft.AspNetCore.Identity
+@using e_corp.Areas.Identity.Data
+@inject UserManager<IdentityUser> UserManager
+@model e_corp.Models.Homepage
+
 @{
     ViewData["Title"] = "Home Page";
+    var user = await UserManager.GetUserAsync(User);
+    var userId = user?.Id;
 }
 
 @if (!(User.Identity.IsAuthenticated))
@@ -18,6 +24,41 @@
     <div class="text-center">
         <p>An account is required to access services.</p>
     </div>
+}
+
+@if (User.Identity.IsAuthenticated)
+{
+    <div class="text-center">
+        <h1 class="display-4 fw-bold fs-200">Welcome to E-Corp Tennis</h1>
+    </div>
+    <div class="text-center">
+        <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
+    </div>
+    @if (Model.HomeBookings != null && Model.HomeBookings.Any())
+    {
+        <div class="text-center" style="margin-top: 8rem">
+            <h1 class="display-10 fw-bold fs-50 text-dark">Your Upcoming Sessions</h1>
+        </div>
+        <div style=" display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
+        @foreach (var booking in Model.HomeBookings)
+        {
+            @if (userId == booking.MemberID)
+            {
+                    <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
+                        <div class="card-body bg-dark">
+                            <h5 class="card-title text-light"><b>@booking.SessionName</b></h5>
+                            <p class="card-text text-light">@booking.Date</p>
+                        </div>
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item" style="background-color: whitesmoke"><b>Coach:</b> @booking.CoachName</li>
+                            <li class="list-group-item" style="background-color: whitesmoke"><b>Coach Contact:</b> @booking.CoachEmail</li>
+                            <li class="list-group-item" style="background-color: whitesmoke"><b>Location:</b> @booking.Location</li>
+                        </ul>
+                    </div>
+            }
+        }
+        </div>
+    }
 }
 
 @if (User.IsInRole("Admin"))

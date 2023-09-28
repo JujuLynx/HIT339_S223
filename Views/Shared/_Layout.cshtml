@@ -13,9 +13,9 @@
 </head>
 <body>
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm border-bottom box-shadow mb-3 navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">e_corp</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Training" asp-action="Index">e_corp</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
                         @if (User.Identity.IsAuthenticated)
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Coaches">Coaches</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Coaches">Coaches</a>
                             </li>
                         }
 
@@ -34,37 +34,37 @@
                         @if (User.IsInRole("Admin"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="CreateEvent">Create Session</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="CreateEvent">Create Session</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">All Sessions</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Events">All Sessions</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Members">All Members</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Members">All Members</a>
                             </li>
                         }
                         <!-- Navigation for coaches  -->
                         @if (User.IsInRole("Coach"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="CreateOrEditCoachProfile">Edit Profile</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="CreateOrEditCoachProfile">Edit Profile</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">My Sessions</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Events">My Sessions</a>
                             </li>
                         }
                         <!-- Navigation for members  -->
                         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))) && (User.Identity.IsAuthenticated))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Bookings">My Bookings</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Bookings">My Bookings</a>
                             </li>
                         
                         }
                         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))) && (User.Identity.IsAuthenticated))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Training" asp-action="Events">Upcoming Sessions</a>
+                                <a class="nav-link text-light" asp-area="" asp-controller="Training" asp-action="Events">Book Sessions</a>
                             </li>
                         }
                     </ul>

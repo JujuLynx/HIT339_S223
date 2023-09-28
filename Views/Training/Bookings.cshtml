@@ -15,12 +15,12 @@
 </div>
 
 <!-- Show user specific bookings  -->
+<div style=" display: flex; flex-wrap: wrap; gap: 20px; justify-content: center">
 @foreach (var booking in Model.Bookings)
 {
     @if (userId == booking.MemberID)
     {
-        <div style=" display: flex; flex-wrap: wrap; gap: 20px; margin: auto">
-            <div class="card" style="width: 25rem;">
+            <div class="card">
                 <div class="card-body">
                     <h5 class="card-title">@booking.SessionName</h5>
                     <p class="card-text">@booking.Date</p>
@@ -34,6 +34,6 @@
                     <a class="btn btn-danger" style="margin: auto" asp-action="DeleteBooking" asp-route-id="@booking.BookingID">Cancel Booking</a>
                 </div>
             </div>
-        </div>
     }
 }
+</div>

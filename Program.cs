@@ -39,7 +39,7 @@ namespace e_corp
 
             app.MapControllerRoute(
                 name: "default",
-                pattern: "{controller=Home}/{action=Index}/{id?}");
+                pattern: "{controller=Training}/{action=Index}/{id?}");
             app.MapRazorPages();
 
             using (var scope = app.Services.CreateScope())
