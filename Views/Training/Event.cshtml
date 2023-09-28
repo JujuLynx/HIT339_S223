@@ -18,31 +18,32 @@
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
 
-<div class="card" style="width: 25rem;">
-    <div class="card-body">
-        <h5 class="card-title">@Model.Name</h5>
+<div class="card" style="width: 25rem; margin: auto">
+    <div class="card-body bg-dark text-light">
+        <h5 class="card-title"><b>@Model.Name</b></h5>
         <p class="card-text">@Model.Date</p>
     </div>
     <ul class="list-group list-group-flush">
-        <li class="list-group-item">Coach: @Model.CoachName</li>
-        <li class="list-group-item">Location: @Model.Location</li>
+        <li class="list-group-item"><b>Coach: </b>@Model.CoachName</li>
+        <li class="list-group-item"><b>Location: </b>@Model.Location</li>
     </ul>
-    <div class="card-body">
-
         <!-- Show the admin controls for the admin user  -->
         @if (User.IsInRole("Admin"))
         {
-            <a class="btn btn-danger" style="margin: auto" asp-action="DeleteEvent" asp-route-id="@Model.SessionID">Delete Session</a>
-            <a class="btn btn-danger" style="margin: auto" asp-action="CreateEvent" asp-route-id="@Model.SessionID">Edit Session</a>
+            <div class="card-body">
+                <a class="btn btn-danger" style="margin: auto" asp-action="DeleteEvent" asp-route-id="@Model.SessionID">Delete Session</a>
+                <a class="btn btn-danger" style="margin: auto" asp-action="CreateEvent" asp-route-id="@Model.SessionID">Edit Session</a>
+            </div>
         }
 
         <!-- Show controls for member users (default users)  -->
         @if ((!(User.IsInRole("Coach"))) && (!(User.IsInRole("Admin"))))
         {
-            <a class="btn btn-success" style="margin: auto" asp-action="Book" asp-route-id="@Model.SessionID">Book Session</a>
-            <a class="btn btn-primary" style="margin: auto" asp-action="Coach" asp-route-id="@Model.CoachID">Visit Coach Profile</a>
+            <div class="card-body">
+                <a class="btn btn-success" style="margin: auto" asp-action="Book" asp-route-id="@Model.SessionID">Book Session</a>
+                <a class="btn btn-primary" style="margin: auto" asp-action="Coach" asp-route-id="@Model.CoachID">Visit Coach Profile</a>
+            </div>
         }
-    </div>
 </div>
 
 <!-- If a coach is viewing their own session, show members booked into the event  -->
@@ -51,7 +52,7 @@
     // check if there are any bookings
     @if (coachBookings.Any())
     {
-        <div class="text-center">
+        <div class="text-center" style="margin-top: 5rem">
             <h1 class="display-4 fw-bold fs-200">Members Attending</h1>
         </div>
 
