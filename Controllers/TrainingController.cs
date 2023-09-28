@@ -36,10 +36,15 @@ namespace e_corp.Controllers
         public async Task<IActionResult> Index()
         {
             var bookings = await _e_corpIdentityDbContext.Booking.ToListAsync();
+            var coaches = await _e_corpIdentityDbContext.CoachProfile.ToListAsync();
+            var sessions = await _e_corpIdentityDbContext.Session.ToListAsync();
 
             var HomepageView = new Homepage
             {
-                HomeBookings = bookings
+                HomeBookings = bookings,
+                HomeCoaches = coaches,
+                HomeSessions = sessions
+
             };
             return View(HomepageView);
         }

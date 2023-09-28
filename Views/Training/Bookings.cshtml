@@ -15,25 +15,25 @@
 </div>
 
 <!-- Show user specific bookings  -->
-<div style=" display: flex; flex-wrap: wrap; gap: 20px; justify-content: center">
-@foreach (var booking in Model.Bookings)
-{
-    @if (userId == booking.MemberID)
+<div style=" display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
+    @foreach (var booking in Model.Bookings)
     {
-            <div class="card">
-                <div class="card-body">
-                    <h5 class="card-title">@booking.SessionName</h5>
-                    <p class="card-text">@booking.Date</p>
+        @if (userId == booking.MemberID)
+        {
+            <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
+                <div class="card-body bg-dark">
+                    <h5 class="card-title text-light"><b>@booking.SessionName</b></h5>
+                    <p class="card-text text-light">@booking.Date</p>
                 </div>
                 <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><b>Coach:</b> @booking.CoachName</li>
-                    <li class="list-group-item"><b>Coach Contact:</b> @booking.CoachEmail</li>
-                    <li class="list-group-item"><b>Location:</b> @booking.Location</li>
+                    <li class="list-group-item" style="background-color: white"><b>Coach:</b> @booking.CoachName</li>
+                    <li class="list-group-item" style="background-color: white"><b>Coach Contact:</b> @booking.CoachEmail</li>
+                    <li class="list-group-item" style="background-color: white"><b>Location:</b> @booking.Location</li>
                 </ul>
-                <div class="card-body">
+                <div class="card-body text-center bg-dark">
                     <a class="btn btn-danger" style="margin: auto" asp-action="DeleteBooking" asp-route-id="@booking.BookingID">Cancel Booking</a>
                 </div>
             </div>
+        }
     }
-}
 </div>

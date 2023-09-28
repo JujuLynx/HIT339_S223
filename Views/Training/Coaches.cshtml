@@ -8,9 +8,12 @@
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
+<div class="text-center fs-3">
+    <p><b>Meet our amazing team of coaches!</b></p>
+</div>
 
 
-<div style=" display: flex; flex-wrap: wrap; gap: 20px; margin: auto">
+<div style=" display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; margin-top: 100px">
 
     <!-- Show all coaches  -->
     @foreach (var coach in Model.CoachProfiles!)
