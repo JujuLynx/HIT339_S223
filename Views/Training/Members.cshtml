@@ -7,20 +7,22 @@
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
-<table class="table w-auto align-content-center">
-    <thead class="table-dark">
-        <tr>
-            <th>User ID</th>
-            <th>Email</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model.UsersWithoutRoles)
-        {
+<div style="display: flex; flex-wrap: wrap; justify-content: center">
+    <table class="table w-auto">
+        <thead class="table-dark">
             <tr>
-                <td>@user.Id</td>
-                <td>@user.Email</td>
+                <th>User ID</th>
+                <th>Email</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var user in Model.UsersWithoutRoles)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.Email</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>

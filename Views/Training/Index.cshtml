@@ -34,13 +34,16 @@
     <div class="text-center fs-4">
         <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
     </div>
-    @if (Model.HomeBookings != null && Model.HomeBookings.Any(booking => booking.MemberID == userId))
+
+    <!-- Check for future bookings for the user and order by date -->
+    @if (Model.HomeBookings != null && Model.HomeBookings.Any(booking => booking.MemberID == userId && booking.Date > DateTime.Now))
     {
         <div class="text-center" style="margin-top: 8rem">
             <h1 class="display-10 fw-bold fs-50 text-dark">Your Upcoming Sessions</h1>
         </div>
         <div style=" display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
-            @foreach (var booking in Model.HomeBookings.Where(booking => booking.MemberID == userId))
+
+            @foreach (var booking in Model.HomeBookings.Where(booking => booking.MemberID == userId && booking.Date > DateTime.Now).OrderBy(b => b.Date))
             {
                 <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
                     <div class="card-body bg-dark">
@@ -54,6 +57,7 @@
                     </ul>
                 </div>
             }
+
         </div>
         <div class="text-center" style="margin-top: 20px">
             <a class="btn btn-primary" style="margin: auto; font-size: 1.5rem" asp-area="Training" asp-action="Bookings">Manage Bookings</a>
@@ -79,6 +83,45 @@
         </div>
         <div class="text-center" style="margin-top: 20px">
             <a class="btn btn-primary" style="margin: auto; font-size: 1.5rem" asp-area="Training" asp-action="Coaches">View Coach Profiles</a>
+        </div>
+    }
+}
+
+<!-- show a specific coaches future sessions  -->
+@if (User.IsInRole("Coach"))
+{
+    <div class="text-center">
+        <h1 class="display-4 fw-bold fs-200">Welcome to E-Corp Tennis</h1>
+    </div>
+    <div class="text-center fs-4">
+        <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
+    </div>
+    var futureSessions = Model.HomeSessions
+                            .Where(session => session.CoachId == userId && session.Date > DateTime.Now)
+                            .OrderBy(session => session.Date)
+                            .ToList();
+
+    if (futureSessions.Any())
+    {
+        <div class="text-center" style="margin-top: 8rem">
+            <h1 class="display-10 fw-bold fs-50 text-dark">Your Upcoming Coaching Sessions</h1>
+        </div>
+        <div style=" display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
+            @foreach (var session in futureSessions)
+            {
+                <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
+                    <div class="card-body bg-dark">
+                        <h5 class="card-title text-light"><b>@session.Name</b></h5>
+                        <p class="card-text text-light">@session.Date</p>
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item" style="background-color: white"><b>Location:</b> @session.Location</li>
+                    </ul>
+                </div>
+            }
+        </div>
+        <div class="text-center" style="margin-top: 20px">
+            <a class="btn btn-primary" style="margin: auto; font-size: 1.5rem" asp-area="Training" asp-action="Events">View Sessions</a>
         </div>
     }
 }

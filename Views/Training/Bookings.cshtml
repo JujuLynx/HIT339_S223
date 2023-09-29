@@ -8,32 +8,33 @@
     // get the user's id
     var user = await UserManager.GetUserAsync(User);
     var userId = user?.Id;
+    // logic for getting future bookings
+    var futureBookings = Model.Bookings
+    .Where(b => b.Date > DateTime.Now && b.MemberID == userId)
+    .OrderBy(b => b.Date);
 }
 
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
 
-<!-- Show user specific bookings  -->
+<!-- Show user specific future bookings in order of date  -->
 <div style=" display: flex; flex-wrap: wrap; justify-content: center; gap: 20px">
-    @foreach (var booking in Model.Bookings)
+    @foreach (var booking in futureBookings)
     {
-        @if (userId == booking.MemberID)
-        {
-            <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
-                <div class="card-body bg-dark">
-                    <h5 class="card-title text-light"><b>@booking.SessionName</b></h5>
-                    <p class="card-text text-light">@booking.Date</p>
-                </div>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item" style="background-color: white"><b>Coach:</b> @booking.CoachName</li>
-                    <li class="list-group-item" style="background-color: white"><b>Coach Contact:</b> @booking.CoachEmail</li>
-                    <li class="list-group-item" style="background-color: white"><b>Location:</b> @booking.Location</li>
-                </ul>
-                <div class="card-body text-center bg-dark">
-                    <a class="btn btn-danger" style="margin: auto" asp-action="DeleteBooking" asp-route-id="@booking.BookingID">Cancel Booking</a>
-                </div>
+        <div class="card" style="border: solid; border-width: 3px; border-color: black; border-radius: 7px">
+            <div class="card-body bg-dark">
+                <h5 class="card-title text-light"><b>@booking.SessionName</b></h5>
+                <p class="card-text text-light">@booking.Date</p>
             </div>
-        }
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item" style="background-color: white"><b>Coach:</b> @booking.CoachName</li>
+                <li class="list-group-item" style="background-color: white"><b>Coach Contact:</b> @booking.CoachEmail</li>
+                <li class="list-group-item" style="background-color: white"><b>Location:</b> @booking.Location</li>
+            </ul>
+            <div class="card-body text-center bg-dark">
+                <a class="btn btn-danger" style="margin: auto" asp-action="DeleteBooking" asp-route-id="@booking.BookingID">Cancel Booking</a>
+            </div>
+        </div>
     }
 </div>

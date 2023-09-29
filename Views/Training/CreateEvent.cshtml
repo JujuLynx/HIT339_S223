@@ -10,36 +10,43 @@
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
+<div class="text-center fs-4">
+    <p><b>Create a session for members!</b></p>
+</div>
+<div style="flex-wrap: wrap; justify-content: center; display: flex">
+    <div class="bg-dark" style="width: 50rem; padding: 2rem; border-radius: 10px; margin-top: 2rem">
+        <form asp-controller="Training" asp-action="CreateOrEditEvent" method="post">
 
-<form asp-controller="Training" asp-action="CreateOrEditEvent" method="post">
+            <!-- hidden session ID to POST if editing  -->
+            @if (isEditing)
+            {
+                <input type="hidden" asp-for="SessionID" />
+            }
 
-    <!-- hidden session ID to POST if editing  -->
-    @if (isEditing)
-    {
-        <input type="hidden" asp-for="SessionID" />
-    }
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Name</b></label>
+                <input type="text" class="form-control" asp-for="Name">
+            </div>
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Date</b></label>
+                <input type="date" class="form-control" asp-for="Date" value="@formDate">
+            </div>
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Location</b></label>
+                <input type="text" class="form-control" asp-for="Location">
+            </div>
+            <div class="mb-3 text-light">
+                <label for="CoachId" class="form-label"><b>Coach</b></label>
+                <select class="form-control" asp-for="CoachId" asp-items="ViewBag.Coaches"></select>
+            </div>
 
-    <div class="mb-3">
-        <label for="" class="form-label">Name</label>
-        <input type="text" class="form-control" asp-for="Name">
+            <!-- Dynamic button name depending on update or create  -->
+            <div class="mb-3 text-center" style="margin-top: 2rem">
+                <input type="submit" value="@(isEditing ? "Update" : "Create")" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Date</label>
-        <input type="date" class="form-control" asp-for="Date" value="@formDate">
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Location</label>
-        <input type="text" class="form-control" asp-for="Location">
-    </div>
-    <div class="mb-3">
-        <label for="CoachId" class="form-label">Coach</label>
-        <select class="form-control" asp-for="CoachId" asp-items="ViewBag.Coaches"></select>
-    </div>
+</div>
 
-    <!-- Dynamic button name depending on update or create  -->
-    <div class="mb-3">
-        <input type="submit" value="@(isEditing ? "Update" : "Create")" class="btn btn-primary" />
-    </div>
-</form>
 
 

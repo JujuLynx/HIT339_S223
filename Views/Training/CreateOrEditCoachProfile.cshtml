@@ -8,31 +8,39 @@
 <div class="text-center">
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
-
-<form asp-controller="Training" asp-action="CreateOrEditCoachProfile" method="post">
-    <div class="mb-3">
-        <label for="" class="form-label">Name</label>
-        <input type="text" class="form-control" asp-for="Name">
+<div class="text-center fs-4">
+    <p><b>An enhanced profile will attract members!</b></p>
+</div>
+<div style="flex-wrap: wrap; justify-content: center; display: flex">
+    <div class="bg-dark" style="width: 50rem; padding: 2rem; border-radius: 10px; margin-top: 2rem">
+        <form asp-controller="Training" asp-action="CreateOrEditCoachProfile" method="post">
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Name</b></label>
+                <input type="text" class="form-control" asp-for="Name">
+            </div>
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Years Of Experience</b></label>
+                <input type="number" class="form-control" asp-for="YearsOfExperience">
+            </div>
+            <div class="mb-3 text-light">
+                <label for="" class="form-label"><b>Biography</b></label>
+                <textarea type="date" class="form-control" asp-for="Biography"></textarea>
+            </div>
+            <div class="mb-3 text-light">
+                <label for="ImageUrl" class="form-label"><b>Image URL</b></label>
+                <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" asp-for="ImageUrl" oninput="previewImage ()">
+            </div>
+            <div style="display: flex; flex-wrap: wrap; justify-content: center; margin-bottom: 2rem">
+                <div class="mb-3 text-light">
+                    <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 300px; max-height: 300px;">
+                </div>
+            </div>
+            <div class="mb-3 text-center">
+                <input type="submit" value="Save Changes" class="btn btn-primary" />
+            </div>
+        </form>
     </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Years Of Experience</label>
-        <input type="number" class="form-control" asp-for="YearsOfExperience">
-    </div>
-    <div class="mb-3">
-        <label for="" class="form-label">Biography</label>
-        <textarea type="date" class="form-control" asp-for="Biography"></textarea>
-    </div>
-    <div class="mb-3">
-        <label for="ImageUrl" class="form-label">Image URL</label>
-        <input type="text" class="form-control" id="ImageUrl" name="ImageUrl" asp-for="ImageUrl" oninput="previewImage ()">
-    </div>
-    <div class="mb-3">
-        <img id="imagePreview" src="#" alt="Image Preview" style="max-width: 300px; max-height: 300px;">
-    </div>
-    <div class="mb-3">
-        <input type="submit" value="Save Changes" class="btn btn-primary" />
-    </div>
-</form>
+</div>
 
 <!-- Script for previewing the image (updates on any editing to the input feild)  -->
 <script>

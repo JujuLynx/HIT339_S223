@@ -19,15 +19,18 @@
 </div>
 
 
-<div style=" display: flex; flex-wrap: wrap; gap: 20px; justify-content: center">
-    <!-- This is for viewing specific coaches future events if it passed to the controller  -->
+<div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center">
     @if (Model.CoachID != null)
     {
+        bool hasFutureEvents = false;
+
         @foreach (var session in Model.Events!)
         {
-            // Adding the condition for future events
-            @if (Model.CoachID == session.CoachId && session.Date.Date >= currentDate)
+            // Check for future events
+            if (Model.CoachID == session.CoachId && session.Date.Date >= currentDate)
             {
+                hasFutureEvents = true;
+
                 <div class="card text-center" style="width: 18rem;">
                     <div class="card-body">
                         <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
@@ -36,6 +39,14 @@
                     </div>
                 </div>
             }
+        }
+
+        // Display the error message only if no future events exist
+        if (!hasFutureEvents)
+        {
+            <div class="text-center fs-4 text-danger">
+                <p><b>No sessions exist</b></p>
+            </div>
         }
     }
     
@@ -73,7 +84,7 @@
     }
 
     // This is for users viewing all future events
-    else
+    else if ((!(User.IsInRole("Admin"))) && (!(User.IsInRole("Coach"))))
     {
         @foreach (var session in Model.Events)
         {
@@ -88,6 +99,13 @@
                 </div>
             }
         }
+    }
+
+    else
+    {
+        <div class="text-center fs-4 text-danger">
+            <p><b>No sessions exist</b></p>
+        </div>
     }
 
 
