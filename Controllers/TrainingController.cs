@@ -67,7 +67,7 @@ namespace e_corp.Controllers
                 {
                     SessionID = session.SessionID,
                     Name = session.Name,
-                    Date = session.Date,
+                    SessionDate = session.Date,
                     Location = session.Location,
                     CoachId = session.CoachId
                 };
@@ -84,6 +84,9 @@ namespace e_corp.Controllers
         {
             if (ModelState.IsValid)
             {
+                // Combine the SessionDate and Time properties to get the full DateTime
+                DateTime combinedDateTime = model.SessionDate.Add(model.Time);
+
                 Session session;
 
                 // Check for an existing session 
@@ -95,7 +98,7 @@ namespace e_corp.Controllers
                     {
                         // Update the existing session
                         session.Name = model.Name;
-                        session.Date = model.Date;
+                        session.Date = combinedDateTime;  // Use the combined DateTime
                         session.Location = model.Location;
                         session.CoachId = model.CoachId;
 
@@ -105,7 +108,7 @@ namespace e_corp.Controllers
                         // Update each booking that corresponds to the session
                         foreach (var booking in bookings)
                         {
-                            booking.Date = model.Date;
+                            booking.Date = combinedDateTime;  // Use the combined DateTime
                             booking.Location = model.Location;
                             booking.SessionName = model.Name;
                             booking.CoachID = model.CoachId;
@@ -132,7 +135,7 @@ namespace e_corp.Controllers
                     {
                         SessionID = Guid.NewGuid(),
                         Name = model.Name,
-                        Date = model.Date,
+                        Date = combinedDateTime,  // Use the combined DateTime
                         Location = model.Location,
                         CoachId = model.CoachId
                     };
@@ -148,6 +151,7 @@ namespace e_corp.Controllers
             ViewBag.Coaches = new SelectList(coaches, "Id", "UserName");
             return View(model);
         }
+
 
 
 

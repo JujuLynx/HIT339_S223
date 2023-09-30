@@ -1,6 +1,7 @@
 ﻿@model e_corp.Models.Sessions
 @using Microsoft.AspNetCore.Identity
 @using e_corp.Areas.Identity.Data
+@using System.Linq
 @inject UserManager<IdentityUser> UserManager
 
 @{
@@ -18,21 +19,20 @@
     <h1 class="display-4 fw-bold fs-200">@ViewData["Title"]</h1>
 </div>
 
-
 <div style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center">
     @if (Model.CoachID != null)
     {
         bool hasFutureEvents = false;
 
-        @foreach (var session in Model.Events!)
+        @foreach (var session in Model.Events.OrderBy(s => s.Date))
         {
             // Check for future events
             if (Model.CoachID == session.CoachId && session.Date.Date >= currentDate)
             {
                 hasFutureEvents = true;
 
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body">
+                <div class="card text-center text-light" style="width: 18rem; border-radius: 10px">
+                    <div class="card-body bg-dark" style="border-radius: 10px">
                         <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
                         <p class="card-text" style="margin-top: 20px">@session.Name</p>
                         <a class="btn btn-primary" style="margin: auto" asp-action="Event" asp-route-id="@session.SessionID">More Details</a>
@@ -41,7 +41,6 @@
             }
         }
 
-        // Display the error message only if no future events exist
         if (!hasFutureEvents)
         {
             <div class="text-center fs-4 text-danger">
@@ -49,17 +48,15 @@
             </div>
         }
     }
-    
-    // This is for coaches viewing only their own events
     else if (User.IsInRole("Coach"))
     {
-        @foreach (var session in Model.Events!)
+        @foreach (var session in Model.Events.OrderBy(s => s.Date))
         {
             @if (userId == session.CoachId)
             {
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
+                <div class="card text-center text-light" style="width: 18rem; border-radius: 10px">
+                    <div class="card-body bg-dark" style="border-radius: 10px">
+                        <h5 class="card-title" style="margin-top: 20px">@session.Date.ToString("dd-MM-yyyy")</h5>
                         <p class="card-text" style="margin-top: 20px">@session.Name</p>
                         <a class="btn btn-primary" style="margin: auto" asp-action="Event" asp-route-id="@session.SessionID">More Details</a>
                     </div>
@@ -67,32 +64,28 @@
             }
         }
     }
-
-    // This is for admins viewing all events
     else if (User.IsInRole("Admin"))
     {
-        @foreach (var session in Model.Events)
+        @foreach (var session in Model.Events.OrderBy(s => s.Date))
         {
-            <div class="card text-center" style="width: 18rem;">
-                <div class="card-body">
-                    <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
+            <div class="card text-center text-light" style="width: 18rem; border-radius: 10px">
+                <div class="card-body bg-dark" style="border-radius: 10px">
+                    <h5 class="card-title" style="margin-top: 20px">@session.Date.ToString("dd-MM-yyyy")</h5>
                     <p class="card-text" style="margin-top: 20px">@session.Name</p>
                     <a class="btn btn-primary" style="margin: auto" asp-action="Event" asp-route-id="@session.SessionID">More Details</a>
                 </div>
             </div>
         }
     }
-
-    // This is for users viewing all future events
     else if ((!(User.IsInRole("Admin"))) && (!(User.IsInRole("Coach"))))
     {
-        @foreach (var session in Model.Events)
+        @foreach (var session in Model.Events.OrderBy(s => s.Date))
         {
             if (session.Date.Date >= currentDate)
             {
-                <div class="card text-center" style="width: 18rem;">
-                    <div class="card-body">
-                        <h5 class="card-title" style="margin-top: 20px">@session.Date</h5>
+                <div class="card text-center text-light" style="width: 18rem; border-radius: 10px">
+                    <div class="card-body bg-dark" style="border-radius: 10px">
+                        <h5 class="card-title" style="margin-top: 20px">@session.Date.ToString("dd-MM-yyyy")</h5>
                         <p class="card-text" style="margin-top: 20px">@session.Name</p>
                         <a class="btn btn-primary" style="margin: auto" asp-action="Event" asp-route-id="@session.SessionID">More Details</a>
                     </div>
@@ -100,15 +93,10 @@
             }
         }
     }
-
     else
     {
         <div class="text-center fs-4 text-danger">
             <p><b>No sessions exist</b></p>
         </div>
     }
-
-
-
 </div>
-
