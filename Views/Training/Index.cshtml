@@ -12,10 +12,10 @@
 @if (!(User.Identity.IsAuthenticated))
 {
     <div class="text-center">
-        <h1 class="display-4 fw-bold fs-200">Welcome to E-Corp Tennis</h1>
+        <h1 class="display-4 fw-bold fs-200">Anyone for Tennis</h1>
     </div>
     <div class="text-center">
-        <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
+        <p><b>Anyone for Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
     </div>
     <div class="text-center" style="margin: 10px; margin-top: 250px">
         <a class="btn btn-success" style="margin: auto; font-size: 2rem" asp-area="Identity" asp-page="/Account/Register">Register</a>
@@ -29,10 +29,10 @@
 @if ((User.Identity.IsAuthenticated) && (!(User.IsInRole("Admin"))) && (!(User.IsInRole("Coach"))))
 {
     <div class="text-center">
-        <h1 class="display-4 fw-bold fs-200">Welcome to E-Corp Tennis</h1>
+        <h1 class="display-4 fw-bold fs-200">Anyone for Tennis</h1>
     </div>
     <div class="text-center fs-4">
-        <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
+        <p><b>Anyone for Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
     </div>
 
     <!-- Check for future bookings for the user and order by date -->
@@ -91,10 +91,10 @@
 @if (User.IsInRole("Coach"))
 {
     <div class="text-center">
-        <h1 class="display-4 fw-bold fs-200">Welcome to E-Corp Tennis</h1>
+        <h1 class="display-4 fw-bold fs-200">Welcome to Anyone for Tennis</h1>
     </div>
     <div class="text-center fs-4">
-        <p><b>E-Corp Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
+        <p><b>Anyone for Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
     </div>
     var futureSessions = Model.HomeSessions
                             .Where(session => session.CoachId == userId && session.Date > DateTime.Now)
