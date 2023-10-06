@@ -85,13 +85,22 @@
             <a class="btn btn-primary" style="margin: auto; font-size: 1.5rem" asp-area="Training" asp-action="Coaches">View Coach Profiles</a>
         </div>
     }
+    <div style="display: flex; flex-wrap: wrap; justify-content: center">
+        <div class="bg-light w-100 text-center" style="margin-top: 100px; margin-bottom: 100px; border-radius: 10px">
+            <h1 class="display-10 fw-bold fs-60 text-dark" style="margin-top: 20px">Member User Guide</h1>
+            <div class="video-container">
+                <iframe style="padding: 20px" width="560" height="315" src="https://www.youtube.com/embed/abUUDistVpc?si=6qgp7MVAahPpctoh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+            </div>
+
+        </div>
+    </div>
 }
 
 <!-- show a specific coaches future sessions  -->
 @if (User.IsInRole("Coach"))
 {
     <div class="text-center">
-        <h1 class="display-4 fw-bold fs-200">Welcome to Anyone for Tennis</h1>
+        <h1 class="display-4 fw-bold fs-200">Anyone for Tennis</h1>
     </div>
     <div class="text-center fs-4">
         <p><b>Anyone for Tennis is a tennis club based in the heart of the city of Darwin. We offer a range of tennis sessions for all ages and abilities.</b></p>
@@ -123,6 +132,15 @@
         <div class="text-center" style="margin-top: 20px">
             <a class="btn btn-primary" style="margin: auto; font-size: 1.5rem" asp-area="Training" asp-action="Events">View Sessions</a>
         </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center">
+            <div class="bg-light w-100 text-center" style="margin-top: 100px; margin-bottom: 100px; border-radius: 10px">
+                <h1 class="display-10 fw-bold fs-60 text-dark" style="margin-top: 20px">Coach User Guide</h1>
+                <div class="video-container" >
+                    <iframe style="padding: 20px" width="560" height="315" src="https://www.youtube.com/embed/abUUDistVpc?si=6qgp7MVAahPpctoh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+                </div>
+
+            </div>
+        </div>
     }
 }
 
@@ -139,7 +157,7 @@
         <div class="row">
             <div class="col">
                 <a class="text-decoration-none" asp-controller="Training" asp-action="Coaches">
-                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white; margin-top: 20px">
                         <div class="card-body">
                             <i class="fa fa-bookmark-o fa-2x" aria-hidden="true"></i>
                             <hr />
@@ -149,9 +167,22 @@
                 </a>
             </div>
 
+
+            <div class="col">
+                <a class="text-decoration-none" asp-controller="Training" asp-action="Members">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white; margin-top: 20px">
+                        <div class="card-body">
+                            <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
+                            <hr />
+                            <p class="card-title lead">Members List</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
             <div class="col">
                 <a class="text-decoration-none" asp-controller="Training" asp-action="Events">
-                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white; margin-top: 20px">
                         <div class="card-body">
                             <i class="fa fa-edit fa-2x" aria-hidden="true"></i>
                             <hr />
@@ -163,7 +194,7 @@
 
             <div class="col">
                 <a class="text-decoration-none" asp-controller="Training" asp-action="CreateEvent">
-                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
+                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white; margin-top: 20px">
                         <div class="card-body">
                             <i class="fa fa-image fa-2x" aria-hidden="true"></i>
                             <hr />
@@ -172,17 +203,14 @@
                     </div>
                 </a>
             </div>
+        </div>
+    </div>
 
-            <div class="col">
-                <a class="text-decoration-none" asp-controller="Training" asp-action="Members">
-                    <div class="card p-3 shadow text-center border-0" style="background-color: darkred; color: white">
-                        <div class="card-body">
-                            <i class="fa fa-envelope fa-2x" aria-hidden="true"></i>
-                            <hr />
-                            <p class="card-title lead">Members List</p>
-                        </div>
-                    </div>
-                </a>
+    <div style="display: flex; flex-wrap: wrap; justify-content: center">
+        <div class="bg-light w-100 text-center" style="margin-top: 100px; margin-bottom: 100px; border-radius: 10px">
+            <h1 class="display-10 fw-bold fs-60 text-dark" style="margin-top: 20px">Admin User Guide</h1>
+            <div class="video-container">
+                <iframe style="padding: 20px" width="560" height="315" src="https://www.youtube.com/embed/abUUDistVpc?si=6qgp7MVAahPpctoh" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
             </div>
 
         </div>
