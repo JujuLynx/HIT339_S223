@@ -52,36 +52,42 @@
     // check if there are any bookings
     @if (coachBookings.Any())
     {
-        <div class="text-center" style="margin-top: 5rem">
-            <h1 class="display-4 fw-bold fs-200">Members Attending</h1>
-        </div>
+        <div style="display: flex; flex-wrap: wrap; justify-content: center">
 
-        <div class="row justify-content-center">
-            <table class="table w-auto align-content-center">
-                <thead class="table-dark">
-                    <tr>
-                        <th>Member Email</th>
-                        <th class="text-center">Member ID</th>
-                        <th class="text-center">Booking ID</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var booking in coachBookings)
-                    {
-                        <tr>
-                            <td class="align-middle fw-bold">
-                                @booking.MemberEmail
-                            </td>
-                            <td class="text-center align-middle">
-                                <b>@booking.MemberID</b>
-                            </td>
-                            <td class="text-center align-middle">
-                                <b>@booking.BookingID</b>
-                            </td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div class="bg-light" style="border-radius: 10px; margin-top: 5rem">
+
+                <div class="text-center" style="">
+                    <h1 class="display-4 fw-bold fs-200">Members Attending</h1>
+                </div>
+
+                <div class="row justify-content-center">
+                    <table class="table w-auto align-content-center" style="padding: 50px">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Member Email</th>
+                                <th class="text-center">Member ID</th>
+                                <th class="text-center">Booking ID</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var booking in coachBookings)
+                            {
+                                <tr>
+                                    <td class="align-middle fw-bold">
+                                        @booking.MemberEmail
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <b>@booking.MemberID</b>
+                                    </td>
+                                    <td class="text-center align-middle">
+                                        <b>@booking.BookingID</b>
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     }
     
